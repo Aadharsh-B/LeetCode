@@ -25,23 +25,17 @@ There are no two adjacent flowers in flowerbed.
 """
 class Solution:
     def canPlaceFlowers(self, flowerbeds: list[int], n: int) -> bool:
-        is_previous_planted = 0
-        is_plantable = 0
-
+        plants = 0
         for i in range(len(flowerbeds)):
-            try:
-                if flowerbeds[i + 1] == 0 and is_previous_planted == 0 and flowerbeds[i] == 0:
-                    is_plantable += 1
-                    is_previous_planted = 1
-                else:
-                    is_previous_planted = flowerbeds[i]
-            except IndexError:
-                # error occurs at terminus
-                if is_previous_planted == 0 and flowerbeds[i] == 0:
-                    is_plantable += 1
-                
-        return is_plantable >= n
+            if flowerbeds[i] == 0:
+                left =  (i == 0) or flowerbeds[i - 1] == 0
+                right = (i == len(flowerbeds) - 1)  or flowerbeds[i + 1] == 0
+                if left and right:
+                    flowerbeds[i] = 1  # simulate planting ...
+                    plants += 1
+
+        return not plants < n
 
 if __name__ == '__main__':
-    s = Solution().canPlaceFlowers([1,0,0,0,1], 2)
+    s = Solution().canPlaceFlowers([1,0,0,0,1], 1)
     print(s)
